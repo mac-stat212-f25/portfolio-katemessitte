@@ -1,0 +1,11 @@
+---
+title: "Homework 01"
+---
+
+
+## TidyTuesday Section
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+I need to look at two data sets and develop a research question and then answer it through a short data story with effective visualization in rstudio. The first data set is frog_names and the variables are subfamily, tribe, scientificName, commonName, secondaryCommonNames. The second data set is frogID_data and the variables are occuranceID, eventID, decimalLatitude, decimalLongitude, scientificName,eventDate, eventTime, timezone, coordinateUncertaintyInMeters, recordedBy, stateProvince. What is a good research question that would have good graphs to build in rstudio with relatively simple functions?
