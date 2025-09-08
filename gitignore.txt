@@ -69,4 +69,3 @@ _freeze/
 *.log
 *.aux
 *.toc
-/src/tt/tidytuesday1
