@@ -232,6 +232,11 @@ cookieconsent.run({
   <a href="../../src/ica/03-adv-ggplot-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3 Advanced Data Viz</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/ica/04_adv_maps/code/04-adv-maps-1-notes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4 Advanced Spatial Viz P1</span></a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -268,13 +273,9 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li>
-<a href="#tidytuesday-section" id="toc-tidytuesday-section" class="nav-link active" data-scroll-target="#tidytuesday-section">TidyTuesday Section</a>
-  <ul class="collapse">
-<li><a href="#research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" id="toc-research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" class="nav-link" data-scroll-target="#research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily">research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</a></li>
+<li><a href="#tidytuesday-section" id="toc-tidytuesday-section" class="nav-link active" data-scroll-target="#tidytuesday-section">TidyTuesday Section</a></li>
+  <li><a href="#research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" id="toc-research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" class="nav-link" data-scroll-target="#research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily">research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</a></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
-  </ul>
-</li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -295,7 +296,7 @@ cookieconsent.run({
 
 </header><section id="tidytuesday-section" class="level2"><h2 class="anchored" data-anchor-id="tidytuesday-section">TidyTuesday Section</h2>
 <p>Explore the week’s <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> challenge. Develop a research question, then answer it through a short data story with <a href="?var:effective-viz-url">effective visualization(s)</a>. Provide sufficient background for readers to grasp your narrative.</p>
-<section id="research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" class="level3"><h3 class="anchored" data-anchor-id="research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily">research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</h3>
+</section><section id="research-question-are-frog-observations-more-common-in-certain-months-of-the-year-and-does-this-vary-by-subfamily" class="level1"><h1>research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</h1>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(lubridate)  <span class="co"># for working with dates</span></span>
@@ -361,7 +362,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
-</section><section id="interpretation" class="level3"><h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+</section><section id="interpretation" class="level1"><h1>Interpretation</h1>
 <p>The two graphs together highlight striking seasonal and taxonomic patterns in frog observations. The line chart shows how activity levels rise and fall across the year, while the bar chart makes clear which groups contribute most heavily to the overall dataset.</p>
 <p>Two subfamilies dominate the picture: Hylids (tree frogs) and Myobatrachids (ground-dwelling frogs). Compared to them, other groups such as Ranids, Microhylidae, and Toads make up only a sliver of the total observations. In the bar chart, this imbalance is obvious, the red and green bars representing Hylids and Myobatrachids tower over the rest.</p>
 <p>Within these dominant groups, different seasonal rhythms appear. Hylids peak in January, drop sharply through the cooler months, and then rebound strongly in the spring and early summer, reaching another high in November. This U-shaped curve suggests their detectability is closely tied to the warmer, wetter parts of the year. Myobatrachids, on the other hand, show steadier numbers in the first half of the year, followed by a dramatic surge in August and September. This peak coincides with spring breeding season, when their calls are especially frequent and easy to record.</p>
@@ -370,7 +371,7 @@ cookieconsent.run({
 
 <!-- -->
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1006,7 +1007,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-7"><a href="#cb8-7"></a></span>
 <span id="cb8-8"><a href="#cb8-8"></a>Explore the week's <span class="co">[</span><span class="ot">TidyTuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span> challenge. Develop a research question, then answer it through a short data story with <span class="co">[</span><span class="ot">effective visualization(s)</span><span class="co">]({{&lt; var effective-viz-url &gt;}})</span>.  Provide sufficient background for readers to grasp your narrative.</span>
 <span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="fu">### research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="fu"># research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?</span></span>
 <span id="cb8-13"><a href="#cb8-13"></a><span class="in">```{r}</span></span>
 <span id="cb8-14"><a href="#cb8-14"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-15"><a href="#cb8-15"></a><span class="fu">library</span>(lubridate)  <span class="co"># for working with dates</span></span>
@@ -1070,7 +1071,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-85"><a href="#cb8-85"></a></span>
 <span id="cb8-86"><a href="#cb8-86"></a><span class="in">```</span></span>
 <span id="cb8-87"><a href="#cb8-87"></a></span>
-<span id="cb8-88"><a href="#cb8-88"></a><span class="fu">### Interpretation</span></span>
+<span id="cb8-88"><a href="#cb8-88"></a><span class="fu"># Interpretation</span></span>
 <span id="cb8-89"><a href="#cb8-89"></a>The two graphs together highlight striking seasonal and taxonomic patterns in frog observations. The line chart shows how activity levels rise and fall across the year, while the bar chart makes clear which groups contribute most heavily to the overall dataset.</span>
 <span id="cb8-90"><a href="#cb8-90"></a></span>
 <span id="cb8-91"><a href="#cb8-91"></a>Two subfamilies dominate the picture: Hylids (tree frogs) and Myobatrachids (ground-dwelling frogs). Compared to them, other groups such as Ranids, Microhylidae, and Toads make up only a sliver of the total observations. In the bar chart, this imbalance is obvious, the red and green bars representing Hylids and Myobatrachids tower over the rest.</span>
