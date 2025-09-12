@@ -198,7 +198,14 @@ names(mn_counties)[names_counties == "state_name"] <- c("state_name1", "state_na
 - If the datasets don't all have the same CRS, use `st_transform()` to update the datasets to have the same CRS as `mn_cities`. You can use `crs = st_crs(mn_cities)` within `st_transform()`.
 
 ```{r}
+# Check CRS for each dataset
+st_crs(mn_cities)
+st_crs(mn_water)
+st_crs(mn_counties)
 
+# If they don't match, transform to match mn_cities
+mn_water   <- st_transform(mn_water, crs = st_crs(mn_cities))
+mn_counties <- st_transform(mn_counties, crs = st_crs(mn_cities))
 
 ```
 
@@ -212,6 +219,17 @@ names(mn_counties)[names_counties == "state_name"] <- c("state_name1", "state_na
 - Install the `ggthemes` package, and add the following layer to use a clean map theme: `+ ggthemes::theme_map()`
 
 ```{r}
+library(ggplot2)
+library(ggthemes)
+
+ggplot() +
+  # County boundaries (base layer)
+  geom_sf(data = mn_counties, fill = NA, color = "black") +
+  # City locations (points on top)
+  geom_sf(data = mn_cities, color = "red", size = 2) +
+  # White background + clean theme
+  theme(panel.background = element_rect(fill = "white")) +
+  ggthemes::theme_map()
 
 
 ```
@@ -265,7 +283,32 @@ Build on our existing map by adding a raster layer for elevation as the backgrou
 - Add in the layers from the map above to show the largest cities and the county outlines. To remove a background color, use `fill = NA`.
 
 ```{r}
-
+ggplot() +
+  # Elevation raster background
+  geom_raster(
+    data = elev_df,
+    aes(x = x, y = y, fill = elevation)
+  ) +
+  scale_fill_gradient(
+    name = "Elevation (m)",
+    low = "darkgreen",   # lowest elevations
+    high = "white"       # highest elevations
+  ) +
+  
+  # County outlines (no fill so raster shows through)
+  geom_sf(data = mn_counties, fill = NA, color = "black") +
+  
+  # Cities with population >= 10,000
+  geom_sf(
+    data = mn_cities |> dplyr::filter(Population >= 10000),
+    mapping = aes(color = Population, size = Population)
+  ) +
+  scale_color_viridis_c() +
+  
+  # Title + theme
+  labs(title = "Minnesota Cities with Population >= 10,000") +
+  ggthemes::theme_map() +
+  theme(legend.position = "bottom")
 
 ```
 
@@ -305,14 +348,24 @@ ggplot() +
     coord_sf(xlim = seven_countyarea[c("xmin", "xmax")], ylim = seven_countyarea[c("ymin", "ymax")]) + # NEW: crop map to Twin Cities bounding box
     labs(title = "Twin Cities with Population >= 10,000") + 
     ggthemes::theme_map() +
-    theme(legend.position = "none") # remove legend
+    theme(legend.position = "none") # remove legend 
 ```
 
 Let's add to the above code chunk to save the map above to an image file called `tc_map_zoom.png` in the `figures` folder. The code example below shows a general template for saving a plot to file. Choose a reasonable width and height. (There are also `jpeg()` and `pdf()` functions for writing images.)
 
 ```{r save_plot_example, eval=FALSE}
-png("relative path to image", width = width_in_pixels, height = height_in_pixels)
-# Code for creating plot
+png(filename = "../figures/tc_map_zoom.png", width = 500, height = 500)
+ggplot() +
+    geom_raster(data = elev_df, aes(x = x, y = y, fill = elevation)) + 
+    geom_sf(data = mn_counties, fill = NA, color = "black") + # county boundary layer
+    geom_sf(data = mn_water, fill = "lightsteelblue1", color = "lightsteelblue1") + # NEW: river/lake layer
+    geom_sf(data = mn_cities |> filter(Population >= 10000), mapping = aes(color = Population, size = Population)) + # cities layer
+    scale_color_viridis_c(option = "magma") + # continuous (gradient) color scale
+    scale_fill_gradient(low = "darkgreen", high = "white") + # continuous (gradient) fill scale
+    coord_sf(xlim = seven_countyarea[c("xmin", "xmax")], ylim = seven_countyarea[c("ymin", "ymax")]) + # NEW: crop map to Twin Cities bounding box
+    labs(title = "Twin Cities with Population >= 10,000") + 
+    ggthemes::theme_map() +
+    theme(legend.position = "none") # remove legend 
 dev.off()
 ```
 
