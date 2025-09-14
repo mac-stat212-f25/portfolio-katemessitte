@@ -71,10 +71,6 @@ book:
       - src/tt/HW01-tt.qmd
       - src/tt/HW02-tt.qmd
 
-    - part: "Homework"
-      chapters:
-      - src/nontt-hw/hw02.p1.qmd
-
 
     - part: "In-Class Activities"
       chapters:
