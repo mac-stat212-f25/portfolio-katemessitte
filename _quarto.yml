@@ -69,6 +69,7 @@ book:
       - src/tt/2025-07-08.qmd
       - src/tt/2025-07-15.qmd
       - src/tt/HW01-tt.qmd
+      - src/tt/HW02-tt.qmd
 
     - part: "In-Class Activities"
       chapters:
