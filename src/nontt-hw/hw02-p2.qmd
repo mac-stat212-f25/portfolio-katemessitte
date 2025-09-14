@@ -1,0 +1,111 @@
+---
+title: "HW02-P2 Adv Data Viz"
+---
+
+## Instructions
+
+**Task:** Open up the New York Times article [A Summer of Strikes](https://www.nytimes.com/interactive/2023/09/03/business/economy/strikes-union-sag-uaw.html), and scroll down to the plot titled "Union membership has fallen sharply over the past four decades (Share of the work force in a union, by industry)".
+
+![](https://hash-mac.github.io/stat212site-f25/images/challenge-2-goal.png)
+
+Using `ggplot2` and other tools in R, recreate this plot. Note that you will need to create the data underlying the plot yourself. You can create this data in R with `tibble()`. You can also write the data in Excel or Google Sheets and export it as a CSV file.
+
+**Requirements:**
+
+- Overall
+  - Panels for "All workers", "By Sector", and "By Industry" are shown.
+  - Arrows showing the change from 1983 to 2022 are shown.
+    - Note: be sure that the arrows all point in the correct direction!
+  - The actual percentages in 1983 and 2022 are shown as text.
+  - X-axis tick marks are at 0, 25, and 50.
+  - Plot title says "Union membership has fallen sharply over the past four decades".
+  - Plot subtitle says "Share of the work force in a union, by industry".
+- Resource reflection
+    - At least 1 resource is listed
+    - At least 3 sentences about resources and their helpfulness in the task
+
+**Bonus**: Additional possibilities to enhance your visualization include adjusting the default aesthetics of the arrows, aligning your plots neatly, and adding margins in order to left-align the y-axis text. 
+
+
+
+
+
+## Setup
+
+```{r}
+# Code for loading packages
+# And code for reading in data if using the Excel/Google Sheets-->CSV approach
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+# Code for generating the data (if using the tibble() approach)
+union_data <- tibble(
+  category = c(
+    "All workers",
+    "Private sector", "Public sector",
+    "Transportation and utilities", "Manufacturing", "Mining", "Construction",
+    "Education and health", "Arts, entertainment and recreation",
+    "Business services", "Retail, food and hospitality",
+    "Public administration", "Agriculture"
+  ),
+  start_year = c(1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983, 1983),
+  end_year   = c(2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022),
+  start_val  = c(20, 17, 37, 47, 28, 27, 28, 26, 17, 10, 8, 30, 5),
+  end_val    = c(10, 6, 33, 16, 8, 7, 13, 17, 7, 3, 3, 28, 4)
+)
+
+```
+
+
+
+
+## Visualization
+
+
+```{r}
+# Code for recreating the visualization
+# Use as many code chunks as you need to organize your work well
+ggplot(union_data) +
+  geom_segment(aes(x = end_val, xend = start_val,
+                   y = reorder(category, start_val),
+                   yend = reorder(category, start_val)),
+               arrow = arrow(length = unit(0.15, "cm"), ends = "last", type = "closed"),
+               color = "steelblue", size = 1) +
+  geom_text(aes(x = start_val, y = category, label = start_val), 
+            hjust = -0.2, size = 3.2) +
+  geom_text(aes(x = end_val, y = category, label = end_val), 
+            hjust = 1.2, size = 3.2) +
+  scale_x_continuous(limits = c(0, 50), breaks = seq(0, 50, 25), labels = scales::percent_format(scale = 1)) +
+  labs(
+    title = "Union membership has fallen sharply over the past four decades",
+    subtitle = "Share of the work force in a union, by industry",
+    x = NULL, y = NULL
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 10),
+    axis.text.x = element_text(size = 9)
+  )
+```
+
+
+
+## Resources Reflection (required)
+
+List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
+
+**Resources:**
+
+- Previous ICA
+- ggplot documentation
+
+**Reflection:**
+
+For this assignment, I relied on a mix of class notes, R documentation, and online examples of ggplot2 visualizations. The documentation was especially helpful for remembering how to use geom_segment() and customizing arrows, while my previous in-class work gave me confidence in structuring the code into clean chunks. Creating the dataset myself was a useful exercise in carefully translating a figure into underlying data. Overall, the combination of class resources and external references made the process much smoother and more manageable.
+
+
+
