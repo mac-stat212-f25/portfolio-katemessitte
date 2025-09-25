@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.42">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>ICA Sample 2 – COMP/STAT212 Portfolio</title>
+<title>Homework 04 – COMP/STAT212 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -56,15 +53,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/ica/cleaning.html" rel="next">
-<link href="../../src/ica/ica-sample1.html" rel="prev">
+<link href="../../src/ica/ica-sample1.html" rel="next">
+<link href="../../src/tt/HW03-tt.html" rel="prev">
 <script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
@@ -77,8 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-463f7e572b85bff0cfe833e89a202fa4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2b27489b1280a247593da265a4955406.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-dark-2b27489b1280a247593da265a4955406.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -104,9 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-
-<script type="text/javascript" charset="UTF-8">
+}</script><script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
@@ -121,40 +114,28 @@ cookieconsent.run({
 "language":"en"
   });
 });
-</script> 
-  
-<style>html{ scroll-behavior: smooth; }</style>
-
-
+</script><style>html{ scroll-behavior: smooth; }</style>
 <link rel="stylesheet" href="../../style/custom.css">
 </head>
-
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../../src/ica/ica-sample2.html"><span class="chapter-title">ICA Sample 2</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/tt/2025-07-08.html">TidyTuesday</a></li><li class="breadcrumb-item"><a href="../../src/tt/HW04-tt.html"><span class="chapter-title">Homework 04</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../../index.html" class="sidebar-logo-link">
-      <img src="../../assets/sidebar-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../../assets/sidebar-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../../">Your Name Here</a> 
         <div class="sidebar-tools-main">
@@ -174,7 +155,7 @@ cookieconsent.run({
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
@@ -188,14 +169,14 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/pv/pv-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Professional Viz Sample</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -204,8 +185,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/tt/2025-07-08.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">TidyTuesday Sample 1</span></a>
   </div>
@@ -232,11 +213,11 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/tt/HW04-tt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Homework 04</span></a>
+  <a href="../../src/tt/HW04-tt.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Homework 04</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
@@ -245,15 +226,15 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/ica/ica-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 1</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/ica/ica-sample2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">ICA Sample 2</span></a>
+  <a href="../../src/ica/ica-sample2.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">ICA Sample 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -277,7 +258,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
@@ -286,8 +267,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/appx/appx-sample1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix Sample 1</span></a>
   </div>
@@ -303,26 +284,26 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#tidytuesday-section-optional" id="toc-tidytuesday-section-optional" class="nav-link active" data-scroll-target="#tidytuesday-section-optional">TidyTuesday Section (optional)</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/ica/ica-sample1.html">In-Class Activities</a></li><li class="breadcrumb-item"><a href="../../src/ica/ica-sample2.html"><span class="chapter-title">ICA Sample 2</span></a></li></ol></nav>
-<div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">ICA Sample 2</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/tt/2025-07-08.html">TidyTuesday</a></li><li class="breadcrumb-item"><a href="../../src/tt/HW04-tt.html"><span class="chapter-title">Homework 04</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">Homework 04</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -331,17 +312,128 @@ cookieconsent.run({
   
 
 
-</header>
-
-
-<p>Add content here</p>
+</header><section id="tidytuesday-section-optional" class="level2"><h2 class="anchored" data-anchor-id="tidytuesday-section-optional">TidyTuesday Section (optional)</h2>
+<div class="callout callout-style-default callout-important callout-titled" title="Instructions">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Instructions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can count work on this week’s TidyTuesday toward the exceptional work required for an A in the Homework component.</p>
+</div>
+</div>
+<p>Explore the week’s <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> challenge. Develop a research question, then answer it through a short data story with <a href="?var:effective-viz-url">effective visualization(s)</a>. Provide sufficient background for readers to grasp your narrative.</p>
+<p>research question: How do chess ratings differ by sex?</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># read in data</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>fide_ratings_august <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"tidytuesday1/data/2025/2025-09-23/fide_ratings_august.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>fide_ratings_september <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"tidytuesday1/data/2025/2025-09-23/fide_ratings_september.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Combine August and September datasets (optional, for a fuller dataset)</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>fide_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  fide_ratings_august <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="st">"August"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  fide_ratings_september <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="st">"September"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># Ensure sex is a factor</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>fide_all<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(fide_all<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>))</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co"># 1. Distribution of ratings by sex</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> rating, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Chess Ratings by Sex"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14"></a>       <span class="at">x =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15"></a>       <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW04-tt_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Distribution of Ratings by Sex The density plot shows that the majority of both male and female players are clustered in the lower to mid-range of FIDE ratings, but male players tend to have a slightly wider distribution, especially in the higher rating ranges. This suggests that while many players of both sexes achieve moderate ratings, men are more represented among the very high-rated players.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># 2. Number of games played by sex</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> games, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log10"</span>) <span class="sc">+</span>  <span class="co"># log scale if games vary a lot</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Games Played by Sex"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>       <span class="at">x =</span> <span class="st">"Sex"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>       <span class="at">y =</span> <span class="st">"Number of Games (log scale)"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW04-tt_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Number of Games Played by Sex The boxplot of games played reveals that male players generally have more games under their belt than female players. This difference in experience could partially explain the gap seen in the higher rating ranges, as more games can provide greater opportunities for skill development and rating improvement.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># 3. Top 10 players by rating for each sex</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>top_players <span class="ot">&lt;-</span> fide_all <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">slice_max</span>(rating, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">arrange</span>(sex, <span class="sc">-</span>rating)</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="fu">ggplot</span>(top_players, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(name, rating), <span class="at">y =</span> rating, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Chess Players by Sex"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12"></a>       <span class="at">x =</span> <span class="st">"Player"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13"></a>       <span class="at">y =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW04-tt_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Top 10 Players by Sex Examining the top 10 rated players of each sex highlights the disparity at the very top of the competitive spectrum. Male players dominate the highest rating positions, though several female players are also represented among top performers. This chart emphasizes the exceptional skill of top female players while illustrating the ongoing imbalance in representation.</p>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># 4. Scatterplot: Rating vs. Games, colored by sex</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> games, <span class="at">y =</span> rating, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span>  <span class="co"># log scale for games</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Chess Rating vs. Number of Games Played"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>       <span class="at">x =</span> <span class="st">"Number of Games (log scale)"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>       <span class="at">y =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>       <span class="at">color =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW04-tt_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Rating vs.&nbsp;Games Played The scatterplot of rating versus number of games played indicates a positive trend: players with more games tend to have higher ratings, regardless of sex. However, the spread suggests that experience alone does not fully account for rating differences; some players achieve high ratings with relatively fewer games. The pattern is similar for both sexes, though the density of points suggests more male players populate the upper-right corner (high games, high ratings).</p>
+<p>Overall Interpretation The visualizations collectively tell a story about both skill and participation differences between male and female chess players. While most players cluster in similar rating ranges, male players are overrepresented among the highest ratings and the most experienced players. Nevertheless, the data also highlights the strong performance of female players, suggesting that when given opportunities to play more games, female players can achieve competitive ratings comparable to male peers. This analysis points to both structural factors (experience/opportunity) and performance potential as key elements in understanding rating differences by sex.</p>
 
 
 <!-- -->
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -957,28 +1049,127 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation column-page-right">
-  <div class="nav-page nav-page-previous">
-      <a href="../../src/ica/ica-sample1.html" class="pagination-link" aria-label="ICA Sample 1">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">ICA Sample 1</span></span>
+</script><nav class="page-navigation column-body"><div class="nav-page nav-page-previous">
+      <a href="../../src/tt/HW03-tt.html" class="pagination-link" aria-label="Homework 03">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Homework 03</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/ica/cleaning.html" class="pagination-link" aria-label="Cleaning SFO Weather Data">
-        <span class="nav-page-text"><span class="chapter-title">Cleaning SFO Weather Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/ica/ica-sample1.html" class="pagination-link" aria-label="ICA Sample 1">
+        <span class="nav-page-text"><span class="chapter-title">ICA Sample 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "ICA Sample 2"</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">---</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>Add content here</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="an">title:</span><span class="co"> "Homework 04"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">---</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">## TidyTuesday Section (optional)</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>::: {.callout-important title="Instructions"}</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a>:::</span>
+<span id="cb7-13"><a href="#cb7-13"></a></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a>Explore the week's <span class="co">[</span><span class="ot">TidyTuesday</span><span class="co">](https://github.com/rfordatascience/tidytuesday)</span> challenge. Develop a research question, then answer it through a short data story with <span class="co">[</span><span class="ot">effective visualization(s)</span><span class="co">]({{&lt; var effective-viz-url &gt;}})</span>.  Provide sufficient background for readers to grasp your narrative.</span>
+<span id="cb7-16"><a href="#cb7-16"></a></span>
+<span id="cb7-17"><a href="#cb7-17"></a>research question: How do chess ratings differ by sex?</span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="in">```{r}</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co"># Load libraries</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="fu">library</span>(readr)</span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">library</span>(here)</span>
+<span id="cb7-25"><a href="#cb7-25"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="in">```</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="in">```{r}</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a><span class="co"># read in data</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a>fide_ratings_august <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"tidytuesday1/data/2025/2025-09-23/fide_ratings_august.csv"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33"></a>fide_ratings_september <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"tidytuesday1/data/2025/2025-09-23/fide_ratings_september.csv"</span>)</span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="in">```</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a></span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="in">```{r}</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a><span class="co"># Combine August and September datasets (optional, for a fuller dataset)</span></span>
+<span id="cb7-40"><a href="#cb7-40"></a>fide_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb7-41"><a href="#cb7-41"></a>  fide_ratings_august <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="st">"August"</span>),</span>
+<span id="cb7-42"><a href="#cb7-42"></a>  fide_ratings_september <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="st">"September"</span>)</span>
+<span id="cb7-43"><a href="#cb7-43"></a>)</span>
+<span id="cb7-44"><a href="#cb7-44"></a></span>
+<span id="cb7-45"><a href="#cb7-45"></a><span class="co"># Ensure sex is a factor</span></span>
+<span id="cb7-46"><a href="#cb7-46"></a>fide_all<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(fide_all<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>))</span>
+<span id="cb7-47"><a href="#cb7-47"></a></span>
+<span id="cb7-48"><a href="#cb7-48"></a><span class="co"># 1. Distribution of ratings by sex</span></span>
+<span id="cb7-49"><a href="#cb7-49"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> rating, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb7-50"><a href="#cb7-50"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-51"><a href="#cb7-51"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Chess Ratings by Sex"</span>,</span>
+<span id="cb7-52"><a href="#cb7-52"></a>       <span class="at">x =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb7-53"><a href="#cb7-53"></a>       <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb7-54"><a href="#cb7-54"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb7-55"><a href="#cb7-55"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-56"><a href="#cb7-56"></a><span class="in">```</span></span>
+<span id="cb7-57"><a href="#cb7-57"></a>Distribution of Ratings by Sex</span>
+<span id="cb7-58"><a href="#cb7-58"></a>The density plot shows that the majority of both male and female players are clustered in the lower to mid-range of FIDE ratings, but male players tend to have a slightly wider distribution, especially in the higher rating ranges. This suggests that while many players of both sexes achieve moderate ratings, men are more represented among the very high-rated players.</span>
+<span id="cb7-59"><a href="#cb7-59"></a></span>
+<span id="cb7-60"><a href="#cb7-60"></a></span>
+<span id="cb7-63"><a href="#cb7-63"></a><span class="in">```{r}</span></span>
+<span id="cb7-64"><a href="#cb7-64"></a><span class="co"># 2. Number of games played by sex</span></span>
+<span id="cb7-65"><a href="#cb7-65"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> games, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb7-66"><a href="#cb7-66"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb7-67"><a href="#cb7-67"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"log10"</span>) <span class="sc">+</span>  <span class="co"># log scale if games vary a lot</span></span>
+<span id="cb7-68"><a href="#cb7-68"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Games Played by Sex"</span>,</span>
+<span id="cb7-69"><a href="#cb7-69"></a>       <span class="at">x =</span> <span class="st">"Sex"</span>,</span>
+<span id="cb7-70"><a href="#cb7-70"></a>       <span class="at">y =</span> <span class="st">"Number of Games (log scale)"</span>) <span class="sc">+</span></span>
+<span id="cb7-71"><a href="#cb7-71"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-72"><a href="#cb7-72"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb7-73"><a href="#cb7-73"></a><span class="in">```</span></span>
+<span id="cb7-74"><a href="#cb7-74"></a>Number of Games Played by Sex</span>
+<span id="cb7-75"><a href="#cb7-75"></a>The boxplot of games played reveals that male players generally have more games under their belt than female players. This difference in experience could partially explain the gap seen in the higher rating ranges, as more games can provide greater opportunities for skill development and rating improvement.</span>
+<span id="cb7-76"><a href="#cb7-76"></a></span>
+<span id="cb7-77"><a href="#cb7-77"></a></span>
+<span id="cb7-80"><a href="#cb7-80"></a><span class="in">```{r}</span></span>
+<span id="cb7-81"><a href="#cb7-81"></a><span class="co"># 3. Top 10 players by rating for each sex</span></span>
+<span id="cb7-82"><a href="#cb7-82"></a>top_players <span class="ot">&lt;-</span> fide_all <span class="sc">%&gt;%</span></span>
+<span id="cb7-83"><a href="#cb7-83"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb7-84"><a href="#cb7-84"></a>  <span class="fu">slice_max</span>(rating, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-85"><a href="#cb7-85"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-86"><a href="#cb7-86"></a>  <span class="fu">arrange</span>(sex, <span class="sc">-</span>rating)</span>
+<span id="cb7-87"><a href="#cb7-87"></a></span>
+<span id="cb7-88"><a href="#cb7-88"></a><span class="fu">ggplot</span>(top_players, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(name, rating), <span class="at">y =</span> rating, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb7-89"><a href="#cb7-89"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb7-90"><a href="#cb7-90"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb7-91"><a href="#cb7-91"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Chess Players by Sex"</span>,</span>
+<span id="cb7-92"><a href="#cb7-92"></a>       <span class="at">x =</span> <span class="st">"Player"</span>,</span>
+<span id="cb7-93"><a href="#cb7-93"></a>       <span class="at">y =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb7-94"><a href="#cb7-94"></a>       <span class="at">fill =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb7-95"><a href="#cb7-95"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-96"><a href="#cb7-96"></a><span class="in">```</span></span>
+<span id="cb7-97"><a href="#cb7-97"></a>Top 10 Players by Sex</span>
+<span id="cb7-98"><a href="#cb7-98"></a>Examining the top 10 rated players of each sex highlights the disparity at the very top of the competitive spectrum. Male players dominate the highest rating positions, though several female players are also represented among top performers. This chart emphasizes the exceptional skill of top female players while illustrating the ongoing imbalance in representation.</span>
+<span id="cb7-99"><a href="#cb7-99"></a></span>
+<span id="cb7-102"><a href="#cb7-102"></a><span class="in">```{r}</span></span>
+<span id="cb7-103"><a href="#cb7-103"></a><span class="co"># 4. Scatterplot: Rating vs. Games, colored by sex</span></span>
+<span id="cb7-104"><a href="#cb7-104"></a><span class="fu">ggplot</span>(fide_all, <span class="fu">aes</span>(<span class="at">x =</span> games, <span class="at">y =</span> rating, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb7-105"><a href="#cb7-105"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-106"><a href="#cb7-106"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span>  <span class="co"># log scale for games</span></span>
+<span id="cb7-107"><a href="#cb7-107"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Chess Rating vs. Number of Games Played"</span>,</span>
+<span id="cb7-108"><a href="#cb7-108"></a>       <span class="at">x =</span> <span class="st">"Number of Games (log scale)"</span>,</span>
+<span id="cb7-109"><a href="#cb7-109"></a>       <span class="at">y =</span> <span class="st">"FIDE Rating"</span>,</span>
+<span id="cb7-110"><a href="#cb7-110"></a>       <span class="at">color =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb7-111"><a href="#cb7-111"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-112"><a href="#cb7-112"></a><span class="in">```</span></span>
+<span id="cb7-113"><a href="#cb7-113"></a>Rating vs. Games Played</span>
+<span id="cb7-114"><a href="#cb7-114"></a>The scatterplot of rating versus number of games played indicates a positive trend: players with more games tend to have higher ratings, regardless of sex. However, the spread suggests that experience alone does not fully account for rating differences; some players achieve high ratings with relatively fewer games. The pattern is similar for both sexes, though the density of points suggests more male players populate the upper-right corner (high games, high ratings).</span>
+<span id="cb7-115"><a href="#cb7-115"></a></span>
+<span id="cb7-116"><a href="#cb7-116"></a></span>
+<span id="cb7-117"><a href="#cb7-117"></a>Overall Interpretation</span>
+<span id="cb7-118"><a href="#cb7-118"></a>The visualizations collectively tell a story about both skill and participation differences between male and female chess players. While most players cluster in similar rating ranges, male players are overrepresented among the highest ratings and the most experienced players. Nevertheless, the data also highlights the strong performance of female players, suggesting that when given opportunities to play more games, female players can achieve competitive ratings comparable to male peers. This analysis points to both structural factors (experience/opportunity) and performance potential as key elements in understanding rating differences by sex.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
       &nbsp;
     </div>   
@@ -990,8 +1181,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
-
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
