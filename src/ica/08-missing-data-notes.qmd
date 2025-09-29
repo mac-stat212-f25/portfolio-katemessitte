@@ -148,8 +148,11 @@ Within a dataset, multiple mechanisms may be present--we need to consider the mi
 
 1. **Missing data mechanism** For each of the following situations, propose what missing data mechanism you think is most likely at play. 
   a. In a clinical trial, some patients dropped out before the end of the study. Their reasons for dropping out were not recorded.
+  MNAR probably: The chance of missingness is likely due to factors that aren’t recorded (like discomfort). 
   b. A weather station records temperature, humidity, and wind speed every hour. Some of the recorded values are missing.
+  Could be MCAR if the missing values are from technical glitches. Could be MAR if the missing values are related to other measured weather variables. Could be MNAR if the values tend to be missing when the values themselves are high (e.g., high temperature, humidity, and wind speed causing measurement devices to malfunction). 
   c. A social media platform collects data on user interactions, such as likes, comments, and shares. Some interactions are not recorded due to bugs in the code.
+  Could be MCAR if the bugs affected the platform uniformly. Could be MAR if the bugs affected groups of users differently, but where the groupings are known (e.g., bugs affect mobile users more and mobile vs. desktop usage is measurable). Could be MNAR if the bugs lead to performance issues that affect users with slower internet more (where internet speed is likely not measured).
 
 
 
@@ -203,6 +206,7 @@ Note: Through our available data, we are really only able to explore the potenti
 To explore these relationships, we can create TRUE/FALSE indicators of whether a variable is missing. In the plots below, we use `is.na(Ozone)` to explore whether cases with missing ozone values are noticeably different from cases with observed ozone values in terms of `Solar.R`.
 
 ```{r miss_box_dens}
+library(ggplot2)
 #| eval: true
 ggplot(airquality, aes(x = is.na(Ozone), y = Solar.R)) + 
     geom_boxplot()
@@ -239,6 +243,8 @@ ggplot(airquality, aes(x = Solar.R, y = Ozone)) +
 2. **Mechanism detection practice** Look at the boxplot + scatterplot pairs for Alternate Situations 1 and 2 below. How do these situations compare to our actual situation and to each other? What concerns might arise from using a model to impute `Ozone`?
 
 ```{r miss_scatter_na_markers_alt}
+library(readr)
+library(tidyverse)
 #| eval: true
 #| echo: false
 airquality_mod <- airquality |> 
@@ -265,7 +271,7 @@ ggplot(airquality_mod, aes(x = Solar.R_mod2, y = Ozone)) +
     geom_vline(data = airquality_mod |> filter(is.na(Ozone)), mapping = aes(xintercept = Solar.R_mod2)) +
     labs(title = "Alternate Situation 2")
 ```
-
+Ozone is missing when solar is at higher values for both alternative situations. In alt 1 version, we have some observed data in the range of Solar for where Ozone is missing so we could predict it fairly well. In alt 2 version, Ozone is missing when Solar is beyond the values of our observed data so we don't have a good sense of what the relationship would be between Solar and Ozone.
 3. **Ozone mechanism detection** Continue the investigation of missingness for `Ozone`. 
 
 We want to see how `Month`, `Wind`, and `Temp` relate to the chance of missingness for `Ozone` and to the value of `Ozone`.
@@ -273,7 +279,27 @@ We want to see how `Month`, `Wind`, and `Temp` relate to the chance of missingne
 Does it look like a linear regression model (perhaps with variable transformations) could be effective in imputing the missing ozone data?
 
 ```{r}
+ggplot(airquality, aes(fill = is.na(Ozone), x = factor(Month))) +
+  geom_bar(position = "fill")
 
+ggplot(airquality, aes(x = is.na(Ozone), y = Wind)) +
+  geom_boxplot()
+
+ggplot(airquality, aes(x = is.na(Ozone), y = Temp)) +
+  geom_boxplot()
+
+ggplot(airquality, aes(x = factor(Month), y = Ozone)) +
+    geom_boxplot()
+
+ggplot(airquality, aes(x = Wind, y = Ozone)) +
+  geom_point() +
+  geom_smooth() +
+  geom_vline(data = airquality |> filter(is.na(Ozone)), mapping = aes(xintercept = Wind))
+
+ggplot(airquality, aes(x = Temp, y = Ozone)) +
+    geom_point() +
+    geom_smooth() +
+    geom_vline(data = airquality |> filter(is.na(Ozone)), mapping = aes(xintercept = Temp))
 ```
 
 
