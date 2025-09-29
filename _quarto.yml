@@ -82,6 +82,12 @@ book:
       - src/ica/03-adv-ggplot-notes.qmd
       - src/ica/04_adv_maps/code/04-adv-maps-1-notes.qmd
       - src/ica/06-wrangling-1-notes.qmd
+      - src/ica/08-missing-data-notes.qmd
+
+    - part: "Exams"
+      chapters:
+      - src/ex/Exam1Findings.qmd
+      - src/ex/Exam1SummarySheet.pdf
 
   appendices:
   - src/appx/appx-sample1.qmd
