@@ -419,6 +419,7 @@ fit_mod_and_extract <- function(___) {
 ```
 
 ```{r}
+library(stringr)
 fit_mod_and_extract <- function(data, yvar, preds, pred_of_interest) {
     # Use str_c to create a string (formula_str) that looks like "yvar ~ pred1 + pred2"
     # Look at the documentation for a helpful argument
@@ -475,7 +476,6 @@ My_own_sum(c(1,2,3))
   - Example below:
   
 ```{r eval = FALSE}
-library(stringr)
 fit_mod_and_extract <- function(data, yvar, preds, pred_of_interest) {
     # Use str_c to create a string (formula_str) that looks like "yvar ~ pred1 + pred2"
     # Look at the documentation for a helpful argument
