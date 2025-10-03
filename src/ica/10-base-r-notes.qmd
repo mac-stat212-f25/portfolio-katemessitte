@@ -203,8 +203,8 @@ x[x > 5 & !is.na(x)]
 Unlike `filter()`, `NA` indices will be included in the output as `NA`s unless you explicitly remove them (`filter()` removes instances of missing values by default.
 
 ```{r}    
-# Compare with filter 
-filter(tibble(x = x), x > 5)
+# # Compare with filter 
+# filter(tibble(x = x), x > 5)
 ```
 
 
