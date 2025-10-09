@@ -1,0 +1,67 @@
+---
+title: "Exam1Findings"
+format: html
+---
+
+## Interactive Visualizations Exploration
+
+# Source 1
+Chapter 13: Interactive Graphs (from Modern Data Visualization)
+https://rkabacoff.github.io/datavis/Interactive.html?utm.com
+Key findings / takeaways:
+- plotly is a powerful interface: you can wrap a ggplot object in ggplotly() to automatically get interactivity (tooltips, zoom, pan, legend toggling).
+- You can customize which fields show up in the tooltip by mapping extra variables to aesthetic labels.
+- The interactivity features (zoom, pan, reset, download) are built in by default.
+```{r}
+library(ggplot2)
+library(plotly)
+
+# Using the built-in mpg dataset
+p <- ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
+  geom_point(size = 3) +
+  labs(x = "Engine displacement (L)",
+       y = "Highway mpg",
+       color = "Car class") +
+  theme_minimal()
+
+# Turn the ggplot into an interactive plotly object
+interactive_p <- ggplotly(p)
+
+# Print / display it
+interactive_p
+```
+
+# Source 2
+How to Create Interactive Visualizations in R
+https://www.kdnuggets.com/how-to-create-interactive-visualizations-in-r?utm.com
+Key findings / takeaways: 
+- Packages to know: plotly for converting ggplots to interactive, or building directly with plot_ly(). leaflet for maps and spatial interactivity (zooming, panning maps). DT for interactive tables (sorting, filtering, pagination).
+- The article emphasizes that interactive visualizations allow users to explore — zooming, filtering, and digging more deeply than a static plot allows.
+- It also warns: interactivity isn’t always beneficial. If overdone, it can confuse users or overwhelm them.
+```{r}
+library(leaflet)
+library(DT)
+
+# Example: interactive map with leaflet
+m <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = c(-71, -74), lat = c(42, 40),
+             popup = c("Point A", "Point B"))
+m
+
+# Example: interactive table with DT
+library(datasets)
+df <- head(iris, 20)
+datatable(df, options = list(pageLength = 5, filter = "top"))
+```
+
+# Source 3
+The Impact of Interactive Data Visualization on Decision-Making in Business Intelligence
+https://www.researchgate.net/publication/381265855_The_Impact_of_Interactive_Data_Visualization_on_Decision-Making_in_Business_Intelligence
+Key findings / takeaways:
+- Using interactive visualizations improves data exploration, speeds decision-making, and enhances collaboration among stakeholders.
+- However, the benefit depends on data quality, user skill level, and interface design. Poor design or messy data can negate the advantages.
+- The authors caution against overly complex interactions, which can cause cognitive overload in users and reduce effectiveness. ResearchGate
+
+
+

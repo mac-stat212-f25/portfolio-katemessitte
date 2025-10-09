@@ -1,0 +1,61 @@
+---
+title: "Homework 05"
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+```{r}
+# import dataset and load necesary libraries
+library(readr)
+library(tidyverse)
+library(lubridate)
+library(plotly)
+cranes <- read_csv("tidytuesday1/data/2025/cranes.csv")
+# Convert date to Date type
+cranes <- cranes %>%
+  mutate(date = ymd(date))
+```
+# Research question: How do weather disruptions affect the number of crane observations over time?
+
+```{r}
+# 1. Time series plot
+ggplot(cranes, aes(x = date, y = observations, color = weather_disruption)) +
+  geom_line() +
+  labs(title = "Crane Observations Over Time",
+       x = "Date", y = "Number of Cranes",
+       color = "Weather Disruption") +
+  theme_minimal()
+```
+```{r}
+# 2. Boxplot by weather disruption
+ggplot(cranes, aes(x = weather_disruption, y = observations, fill = weather_disruption)) +
+  geom_boxplot() +
+  labs(title = "Impact of Weather on Crane Observations",
+       x = "Weather Disruption", y = "Number of Cranes") +
+  theme_minimal() +
+  scale_fill_manual(values = c("skyblue", "salmon"))
+```
+
+```{r}
+# 3. Interactive plot
+p <- cranes %>%
+  plot_ly(x = ~date, y = ~observations, type = 'scatter', mode = 'lines+markers',
+          color = ~weather_disruption, text = ~paste("Comment:", comment)) %>%
+  layout(title = "Interactive Crane Observations",
+         xaxis = list(title = "Date"),
+         yaxis = list(title = "Number of Cranes"))
+p
+```
+
+# Interpertation:
+Crane observations fluctuate over time, likely reflecting seasonal migration patterns. Days with weather disruptions tend to have lower counts, showing that weather impacts both crane activity and observation ability. By combining trends in the line chart, comparisons in the boxplot, and detailed insights from the interactive plot, we see a fuller picture of crane behavior and the challenges of monitoring them under varying weather conditions.
