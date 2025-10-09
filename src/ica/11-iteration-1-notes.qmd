@@ -53,11 +53,6 @@ Let's talk about iteration in R.
 
 In R, `for` loops have the following general structure:
 
-```{r for_syntax}
-library(tidyr)
-library(dplyr)
-library(ggplot2)
-```
 
 ```{r for_syntax}
 #| eval: false
