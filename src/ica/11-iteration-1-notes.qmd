@@ -256,6 +256,7 @@ diamonds |>
 `dplyr` provides the `across()` function for performing these repeated function calls:
 
 ```{r with_across}
+library(dplyr)
 # Option 1: Create our own named function
 round_to_one <- function(x) {
     round(x, digits = 1)
