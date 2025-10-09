@@ -54,13 +54,6 @@ Let's talk about iteration in R.
 In R, `for` loops have the following general structure:
 
 
-```{r for_syntax, eval = FALSE}
-#| eval: false
-
-for (i in some_vector) {
-    # Code to do stuff based on i
-}
-```
 
 
 `some_vector` can be **any** vector, including:
