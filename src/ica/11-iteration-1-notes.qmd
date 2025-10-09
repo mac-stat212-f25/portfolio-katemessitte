@@ -136,7 +136,7 @@ for (r in seq_len(nrow(small_data))) {
 When using a for loop to create/save output, we should create storage containers ahead of time with the `vector()` function. This allocates memory for the output and is a more efficient use of memory. 
 :::
 
-```{r store_results}
+```{r store_results, eval = FALSE}
 char_storage <- vector("character", length = 3)
 num_storage <- vector("numeric", length = 3)
 list_storage <- vector("list", length = 3)
