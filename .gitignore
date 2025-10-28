@@ -69,3 +69,6 @@ _freeze/
 *.log
 *.aux
 *.toc
+/src/tt/tidytuesday1
+src/ica/census_api_key.txt
+src/ica/nyt_api_key
