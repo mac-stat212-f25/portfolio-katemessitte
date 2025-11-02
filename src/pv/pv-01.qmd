@@ -2,4 +2,52 @@
 title: "Professional Viz Sample"
 ---
 
-Add content here
+```{r}
+# Load necessary libraries
+library(readr)
+
+# Read in dataset
+spotify_tracks <- read_csv("spotify_tracks.csv")
+```
+
+# Brainstorming: Spotify Professional Visualization
+
+Possible Focus Ideas:
+- What characteristics popular songs share
+- How music features differ across genres
+- Whether happy/upbeat songs are more popular
+- How musical features have changed over time
+
+Key Variables to Use (will choose ~4–6):
+- Outcome: popularity
+- Audio features: danceability, energy, valence (mood), tempo, loudness, acousticness
+- Context: genre, release year, duration, artist
+
+Guiding Questions:
+- Which musical features are most associated with popularity?
+- Do certain genres have specific “sound profiles”?
+- Are popular songs happier/faster/more energetic?
+- Have hit songs changed over time in tempo or mood?
+
+Visualization Ideas:
+- Scatterplot with encodings: e.g., danceability vs. energy, color = popularity
+- Small multiples: genre or time comparisons
+- Density/ridgeline plots: compare feature distributions for high vs. low popularity songs
+- Line + annotations: trends in features across years
+
+Style Inspiration (NYT-style):
+- Clear title + subtitle explaining insight
+- Minimal legend, clean color use
+- Annotations pointing out key observations
+- Labels that make plot easy to read without extra text
+
+Data Tasks:
+- Clean genre names if needed
+- Create popularity groups (e.g., top 10%, mid, low)
+- Possibly scale/normalize features
+- Remove missing or irrelevant rows
+
+Hypotheses to Explore:
+- Popular songs tend to be more danceable and moderately energetic
+- Modern hits may be slower and sadder than older hits
+- Genres have distinct sound patterns
