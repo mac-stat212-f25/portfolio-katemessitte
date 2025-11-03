@@ -75,6 +75,7 @@ book:
       - src/tt/HW05-tt.qmd
       - src/tt/HW06-tt.qmd
       - src/tt/HW07-tt.qmd
+      - src/tt/HW08-tt.qmd
 
 
     - part: "In-Class Activities"
