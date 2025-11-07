@@ -5,49 +5,147 @@ title: "Professional Viz Sample"
 ```{r}
 # Load necessary libraries
 library(readr)
+library(tidyverse)
+library(plotly)
+library(scales)
+library(viridisLite)
 
 # Read in dataset
 spotify_tracks <- read_csv("spotify_tracks.csv")
 ```
 
-# Brainstorming: Spotify Professional Visualization
+# Spotify Professional Visualization
 
-Possible Focus Ideas:
-- What characteristics popular songs share
-- How music features differ across genres
-- Whether happy/upbeat songs are more popular
-- How musical features have changed over time
+```{r}
+# data prep
+df <- spotify_tracks %>%
+  transmute(
+    genre = str_to_title(str_trim(genre)),
+    duration_min = duration_ms / 60000
+  ) %>%
+  filter(!is.na(genre), !is.na(duration_min))
 
-Key Variables to Use (will choose ~4–6):
-- Outcome: popularity
-- Audio features: danceability, energy, valence (mood), tempo, loudness, acousticness
-- Context: genre, release year, duration, artist
+# Duration bins (ordered, readable)
+dur_breaks <- c(-Inf, 2, 3, 4, 5, 6, Inf)
+dur_labels <- c("<2", "2–3", "3–4", "4–5", "5–6", "6+")
+df <- df %>%
+  mutate(
+    duration_bin = cut(duration_min, breaks = dur_breaks, labels = dur_labels, right = FALSE),
+    duration_bin = fct_relevel(duration_bin, dur_labels)
+  )
 
-Guiding Questions:
-- Which musical features are most associated with popularity?
-- Do certain genres have specific “sound profiles”?
-- Are popular songs happier/faster/more energetic?
-- Have hit songs changed over time in tempo or mood?
+# Top 10 genres by count (lump the rest into "Other")
+top_genres <- df %>%
+  count(genre, sort = TRUE) %>%
+  slice_head(n = 10) %>%
+  pull(genre)
 
-Visualization Ideas:
-- Scatterplot with encodings: e.g., danceability vs. energy, color = popularity
-- Small multiples: genre or time comparisons
-- Density/ridgeline plots: compare feature distributions for high vs. low popularity songs
-- Line + annotations: trends in features across years
+df <- df %>%
+  mutate(genre_lumped = if_else(genre %in% top_genres, genre, "Other")) %>%
+  filter(genre_lumped != "Other")
 
-Style Inspiration (NYT-style):
-- Clear title + subtitle explaining insight
-- Minimal legend, clean color use
-- Annotations pointing out key observations
-- Labels that make plot easy to read without extra text
+# Summaries: counts and within-genre percentages
+sum_df <- df %>%
+  count(genre_lumped, duration_bin, name = "n") %>%
+  group_by(genre_lumped) %>%
+  mutate(total = sum(n), pct = n / total) %>%
+  ungroup()
 
-Data Tasks:
-- Clean genre names if needed
-- Create popularity groups (e.g., top 10%, mid, low)
-- Possibly scale/normalize features
-- Remove missing or irrelevant rows
+# Order genres by total count (for a tidy left→right read)
+genre_order <- sum_df %>% group_by(genre_lumped) %>% summarise(total = sum(n), .groups = "drop") %>%
+  arrange(desc(total)) %>% pull(genre_lumped)
+sum_df <- sum_df %>% mutate(genre_lumped = factor(genre_lumped, levels = genre_order))
 
-Hypotheses to Explore:
-- Popular songs tend to be more danceable and moderately energetic
-- Modern hits may be slower and sadder than older hits
-- Genres have distinct sound patterns
+# Color palette for duration bins (colorful but harmonious, colorblind-friendly)
+bin_levels <- levels(sum_df$duration_bin)
+cols <- viridis(length(bin_levels), option = "C", begin = 0.05, end = 0.95)
+names(cols) <- bin_levels
+
+# ---- Build interactive stacked bars: two sets of traces (Counts vs Percent) ----
+p <- plot_ly()
+
+# Add COUNT traces
+for (b in bin_levels) {
+  dd <- sum_df %>% filter(duration_bin == b)
+  p <- add_bars(
+    p, data = dd,
+    x = ~genre_lumped, y = ~n,
+    name = b, legendgroup = "count",
+    marker = list(color = cols[b]),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Duration: ", b, "<br>",
+      "Tracks: %{y:,}<br>",
+      "Share: %{customdata:.0%}<extra></extra>"
+    ),
+    customdata = dd$pct,
+    visible = TRUE # counts visible by default
+  )
+}
+
+# Add PERCENT traces (start hidden)
+for (b in bin_levels) {
+  dd <- sum_df %>% filter(duration_bin == b)
+  p <- add_bars(
+    p, data = dd,
+    x = ~genre_lumped, y = ~pct,
+    name = b, legendgroup = "percent",
+    marker = list(color = cols[b]),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Duration: ", b, "<br>",
+      "Share: %{y:.0%}<br>",
+      "Tracks: %{customdata:,}<extra></extra>"
+    ),
+    customdata = dd$n,
+    visible = FALSE
+  )
+}
+
+# Build dropdown to toggle metric
+n_bins <- length(bin_levels)
+count_vis   <- c(rep(TRUE, n_bins),  rep(FALSE, n_bins))  # first set (counts) on
+percent_vis <- c(rep(FALSE, n_bins), rep(TRUE,  n_bins))  # second set (percent) on
+
+p <- layout(
+  p,
+  barmode = "stack",
+  legend = list(title = list(text = "<b>Duration (min)</b>")),
+  xaxis = list(
+    title = "",
+    categoryorder = "array",
+    categoryarray = genre_order
+  ),
+  yaxis = list(
+    title = "Tracks (count)"
+  ),
+  updatemenus = list(list(
+    type = "buttons",
+    direction = "left",
+    x = 0, y = 1.12,
+    xanchor = "left", yanchor = "top",
+    buttons = list(
+      list(method = "update",
+           args = list(list(visible = count_vis),
+                       list(yaxis = list(title = "Tracks (count)"))),
+           label = "Counts"),
+      list(method = "update",
+           args = list(list(visible = percent_vis),
+                       list(yaxis = list(tickformat = ",.0%", title = "Share within genre"))),
+           label = "Percent")
+    ),
+    showactive = TRUE
+  )),
+  margin = list(l = 60, r = 20, t = 110, b = 70),
+  title = list(
+    text = paste0(
+      "How Long Are Tracks by Genre?<br>",
+      "<sup>Interactive stacked bars — switch between Counts and Percent within genre.</sup>"
+    )
+  )
+) %>%
+  config(displayModeBar = TRUE)
+
+p
+```
+
