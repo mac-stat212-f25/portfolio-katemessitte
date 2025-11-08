@@ -20,8 +20,9 @@ spotify_tracks <- read_csv("spotify_tracks.csv")
 # data prep
 df <- spotify_tracks %>%
   transmute(
-    genre = str_to_title(str_trim(genre)),
-    duration_min = duration_ms / 60000
+    genre        = str_to_title(str_trim(genre)),
+    duration_min = duration_ms / 60000,
+    popularity   = popularity
   ) %>%
   filter(!is.na(genre), !is.na(duration_min))
 
@@ -34,9 +35,11 @@ df <- df %>%
     duration_bin = fct_relevel(duration_bin, dur_labels)
   )
 
-# Top 10 genres by count (lump the rest into "Other")
+# ---- Top 10 genres by *average popularity* (objective selection) ----
 top_genres <- df %>%
-  count(genre, sort = TRUE) %>%
+  group_by(genre) %>%
+  summarise(avg_pop = mean(popularity, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(avg_pop)) %>%
   slice_head(n = 10) %>%
   pull(genre)
 
@@ -51,9 +54,14 @@ sum_df <- df %>%
   mutate(total = sum(n), pct = n / total) %>%
   ungroup()
 
-# Order genres by total count (for a tidy left→right read)
-genre_order <- sum_df %>% group_by(genre_lumped) %>% summarise(total = sum(n), .groups = "drop") %>%
-  arrange(desc(total)) %>% pull(genre_lumped)
+# ---- Order genres on x-axis by *average popularity* (most → least) ----
+genre_order <- df %>%
+  group_by(genre_lumped) %>%
+  summarise(avg_pop = mean(popularity, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(avg_pop)) %>%
+  pull(genre_lumped) %>%
+  as.character()
+
 sum_df <- sum_df %>% mutate(genre_lumped = factor(genre_lumped, levels = genre_order))
 
 # Color palette for duration bins (colorful but harmonious, colorblind-friendly)
@@ -114,7 +122,7 @@ p <- layout(
   xaxis = list(
     title = "",
     categoryorder = "array",
-    categoryarray = genre_order
+    categoryarray = genre_order    # enforce popularity-based order
   ),
   yaxis = list(
     title = "Tracks (count)"
@@ -127,7 +135,7 @@ p <- layout(
     buttons = list(
       list(method = "update",
            args = list(list(visible = count_vis),
-                       list(yaxis = list(title = "Tracks (count)"))),
+                       list(yaxis = list(title = "Tracks (count)", tickformat = ""))),
            label = "Counts"),
       list(method = "update",
            args = list(list(visible = percent_vis),
@@ -140,7 +148,8 @@ p <- layout(
   title = list(
     text = paste0(
       "How Long Are Tracks by Genre?<br>",
-      "<sup>Interactive stacked bars — switch between Counts and Percent within genre.</sup>"
+      "<sup>Interactive stacked bars — switch between Counts and Percent within genre.<br>",
+      "Genres are the Top 10 by average popularity.</sup>"
     )
   )
 ) %>%
