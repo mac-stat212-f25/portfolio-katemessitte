@@ -94,12 +94,14 @@ book:
       # - src/ica/14-apis-2-notes.qmd
       - src/ica/15-scraping-notes.qmd
       - src/ica/16-databases-notes.qmd
-      - src/ica/18-interactive-viz-notes.qmd
+      #- src/ica/18-interactive-viz-notes.qmd
 
     - part: "Exams"
       chapters:
       - src/ex/Exam1Findings.qmd
       - src/ex/Exam1SummarySheet.pdf
+      - src/ex/Exam2Findings.qmd
+      - src/ex/Exam2SummarySheet.pdf
 
   appendices:
   - src/appx/appx-sample1.qmd
