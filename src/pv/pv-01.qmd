@@ -2,4 +2,159 @@
 title: "Professional Viz Sample"
 ---
 
-Add content here
+```{r}
+# Load necessary libraries
+library(readr)
+library(tidyverse)
+library(plotly)
+library(scales)
+library(viridisLite)
+
+# Read in dataset
+spotify_tracks <- read_csv("spotify_tracks.csv")
+```
+
+# Spotify Professional Visualization
+
+```{r}
+# data prep
+df <- spotify_tracks %>%
+  transmute(
+    genre        = str_to_title(str_trim(genre)),
+    duration_min = duration_ms / 60000,
+    popularity   = popularity
+  ) %>%
+  filter(!is.na(genre), !is.na(duration_min))
+
+# Duration bins (ordered, readable)
+dur_breaks <- c(-Inf, 2, 3, 4, 5, 6, Inf)
+dur_labels <- c("<2", "2–3", "3–4", "4–5", "5–6", "6+")
+df <- df %>%
+  mutate(
+    duration_bin = cut(duration_min, breaks = dur_breaks, labels = dur_labels, right = FALSE),
+    duration_bin = fct_relevel(duration_bin, dur_labels)
+  )
+
+# ---- Top 10 genres by *average popularity* (objective selection) ----
+top_genres <- df %>%
+  group_by(genre) %>%
+  summarise(avg_pop = mean(popularity, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(avg_pop)) %>%
+  slice_head(n = 10) %>%
+  pull(genre)
+
+df <- df %>%
+  mutate(genre_lumped = if_else(genre %in% top_genres, genre, "Other")) %>%
+  filter(genre_lumped != "Other")
+
+# Summaries: counts and within-genre percentages
+sum_df <- df %>%
+  count(genre_lumped, duration_bin, name = "n") %>%
+  group_by(genre_lumped) %>%
+  mutate(total = sum(n), pct = n / total) %>%
+  ungroup()
+
+# ---- Order genres on x-axis by *average popularity* (most → least) ----
+genre_order <- df %>%
+  group_by(genre_lumped) %>%
+  summarise(avg_pop = mean(popularity, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(avg_pop)) %>%
+  pull(genre_lumped) %>%
+  as.character()
+
+sum_df <- sum_df %>% mutate(genre_lumped = factor(genre_lumped, levels = genre_order))
+
+# Color palette for duration bins (colorful but harmonious, colorblind-friendly)
+bin_levels <- levels(sum_df$duration_bin)
+cols <- viridis(length(bin_levels), option = "C", begin = 0.05, end = 0.95)
+names(cols) <- bin_levels
+
+# ---- Build interactive stacked bars: two sets of traces (Counts vs Percent) ----
+p <- plot_ly()
+
+# Add COUNT traces
+for (b in bin_levels) {
+  dd <- sum_df %>% filter(duration_bin == b)
+  p <- add_bars(
+    p, data = dd,
+    x = ~genre_lumped, y = ~n,
+    name = b, legendgroup = "count",
+    marker = list(color = cols[b]),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Duration: ", b, "<br>",
+      "Tracks: %{y:,}<br>",
+      "Share: %{customdata:.0%}<extra></extra>"
+    ),
+    customdata = dd$pct,
+    visible = TRUE # counts visible by default
+  )
+}
+
+# Add PERCENT traces (start hidden)
+for (b in bin_levels) {
+  dd <- sum_df %>% filter(duration_bin == b)
+  p <- add_bars(
+    p, data = dd,
+    x = ~genre_lumped, y = ~pct,
+    name = b, legendgroup = "percent",
+    marker = list(color = cols[b]),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Duration: ", b, "<br>",
+      "Share: %{y:.0%}<br>",
+      "Tracks: %{customdata:,}<extra></extra>"
+    ),
+    customdata = dd$n,
+    visible = FALSE
+  )
+}
+
+# Build dropdown to toggle metric
+n_bins <- length(bin_levels)
+count_vis   <- c(rep(TRUE, n_bins),  rep(FALSE, n_bins))  # first set (counts) on
+percent_vis <- c(rep(FALSE, n_bins), rep(TRUE,  n_bins))  # second set (percent) on
+
+p <- layout(
+  p,
+  barmode = "stack",
+  legend = list(title = list(text = "<b>Duration (min)</b>")),
+  xaxis = list(
+    title = "",
+    categoryorder = "array",
+    categoryarray = genre_order    # enforce popularity-based order
+  ),
+  yaxis = list(
+    title = "Tracks (count)"
+  ),
+  updatemenus = list(list(
+    type = "buttons",
+    direction = "left",
+    x = 0, y = 1.12,
+    xanchor = "left", yanchor = "top",
+    buttons = list(
+      list(method = "update",
+           args = list(list(visible = count_vis),
+                       list(yaxis = list(title = "Tracks (count)", tickformat = ""))),
+           label = "Counts"),
+      list(method = "update",
+           args = list(list(visible = percent_vis),
+                       list(yaxis = list(tickformat = ",.0%", title = "Share within genre"))),
+           label = "Percent")
+    ),
+    showactive = TRUE
+  )),
+  margin = list(l = 60, r = 20, t = 110, b = 70),
+  title = list(
+    text = paste0(
+      "How Long Are Tracks by Genre?<br>",
+      "<sup>Interactive stacked bars — switch between Counts and Percent within genre.<br>",
+      "Genres are the Top 10 by average popularity.</sup>"
+    )
+  )
+) %>%
+  config(displayModeBar = TRUE)
+
+p
+```
+

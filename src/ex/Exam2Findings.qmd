@@ -1,0 +1,128 @@
+---
+title: "Exam2Findings"
+format: html
+---
+
+```{r}
+## practice-data-table.R
+## Exploratory practice with the data.table package
+
+## 0) Install & load
+
+# install.packages("data.table") # run once if you don't have it
+library(data.table)
+
+## 1) Turn a data frame into a data.table
+
+# Start with built-in data
+df_mtcars <- mtcars
+
+# Convert to data.table (in place)
+dt_mtcars <- as.data.table(df_mtcars)
+
+# Check structure
+str(dt_mtcars)
+head(dt_mtcars)
+
+
+## 2) Core syntax: DT[i, j, by
+
+# i = row filter, j = columns / expressions, by = group
+
+# a) Filter rows: cars with mpg > 25
+dt_mtcars[mpg > 25]
+
+# b) Select a subset of columns
+dt_mtcars[, .(mpg, cyl, hp)]
+
+# c) Create a new column (update by reference)
+dt_mtcars[, hp_per_cyl := hp / cyl]
+head(dt_mtcars[, .(mpg, cyl, hp, hp_per_cyl)])
+
+# d) Grouped summaries: mean mpg by cylinder
+dt_mtcars[
+  , .(
+    mean_mpg = mean(mpg),
+    sd_mpg   = sd(mpg),
+    n        = .N       # .N = number of rows in each group
+  ),
+  by = cyl
+]
+
+# e) Multiple conditions in i
+dt_mtcars[
+  mpg > 20 & cyl == 4,
+  .(mpg, cyl, hp, wt)
+]
+
+
+## 3) Chaining operations with
+
+# Example: among cars with mpg > 20, compute avg hp_per_cyl by cyl,
+# then keep only groups with avg hp_per_cyl > 25
+dt_mtcars[mpg > 20][
+  , .(avg_hp_per_cyl = mean(hp_per_cyl)), by = cyl
+][avg_hp_per_cyl > 25]
+
+
+## 4) Fast reading with fread()
+
+# We'll write mtcars to a csv, then read it back with data.table::fread
+
+temp_path <- tempfile(fileext = ".csv")
+write.csv(df_mtcars, temp_path, row.names = FALSE)
+
+# fread is data.table's fast file reader
+dt_from_csv <- fread(temp_path)
+
+# Confirm it matches
+head(dt_from_csv)
+str(dt_from_csv)
+
+
+## 5) Keys: fast sorting & joining
+
+# Create two small tables to practice with keys & joins
+
+dt_cars <- data.table(
+  car_id = 1:5,
+  model  = c("A", "B", "C", "D", "E"),
+  mpg    = c(21, 25, 30, 18, 22)
+)
+
+dt_specs <- data.table(
+  car_id = c(1, 2, 3, 5, 6),
+  hp     = c(110, 120, 150, 130, 160)
+)
+
+# Set keys (like sorted indexes)
+setkey(dt_cars, car_id)
+setkey(dt_specs, car_id)
+
+# Inner join (by key)
+dt_cars[dt_specs]
+
+# Left join equivalent: all cars, matching hp where available
+dt_specs[dt_cars]
+
+# Check what happens with non-matching car_id (6 in dt_specs)
+dt_cars[dt_specs, nomatch = 0]   # drop non-matches
+
+
+## 6) A small "real" summary example
+
+# Summarize mtcars by number of gears and cylinders:
+# mean mpg, mean hp, and count of cars
+
+gear_cyl_summary <- dt_mtcars[
+  , .(
+    mean_mpg = round(mean(mpg), 1),
+    mean_hp  = round(mean(hp), 1),
+    n        = .N
+  ),
+  by = .(gear, cyl)
+][order(gear, cyl)]  # sort
+
+gear_cyl_summary
+```
+
