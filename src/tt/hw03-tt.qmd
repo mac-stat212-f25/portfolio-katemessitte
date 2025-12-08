@@ -1,0 +1,111 @@
+---
+title: "Homework 03"
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+```{r}
+library(readr)
+library(tidyverse)
+library(here)
+```
+
+```{r}
+# read in data
+country_lists <- read_csv("tidytuesday1/data/2025/2025-09-09/country_lists.csv")
+rank_by_year <- read_csv("tidytuesday1/data/2025/2025-09-09/rank_by_year.csv")
+```
+
+Research question: How has visa-free access changed worldwide between years, and do some regions show faster growth than others?
+
+# Global trend in Visa Free access
+```{r}
+# Line plot of global average visa-free count over time
+rank_by_year %>%
+  group_by(year) %>%
+  summarize(avg_visa_free = mean(visa_free_count, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = avg_visa_free)) +
+  geom_line(color = "steelblue", size = 1.2) +
+  geom_point(color = "steelblue", size = 2) +
+  labs(
+    title = "Global Trend in Visa-Free Access Over Time",
+    x = "Year",
+    y = "Average Visa-Free Count"
+  ) +
+  theme_minimal()
+
+```
+# Reigonal trends in visa free access
+```{r}
+# Line plot by region
+rank_by_year %>%
+  group_by(region, year) %>%
+  summarize(avg_visa_free = mean(visa_free_count, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = avg_visa_free, color = region)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Regional Trends in Visa-Free Access Over Time",
+    x = "Year",
+    y = "Average Visa-Free Count",
+    color = "Region"
+  ) +
+  theme_minimal()
+```
+
+# distribution of visa free access by region (most recent year)
+```{r}
+# Boxplot for the latest year
+latest_year <- max(rank_by_year$year, na.rm = TRUE)
+
+rank_by_year %>%
+  filter(year == latest_year) %>%
+  ggplot(aes(x = region, y = visa_free_count, fill = region)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(
+    title = paste("Distribution of Visa-Free Access by Region in", latest_year),
+    x = "Region",
+    y = "Visa-Free Count"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# Top movers over time
+```{r}
+# Identify top gainers/losers based on change in rank
+top_movers <- rank_by_year %>%
+  group_by(country) %>%
+  summarize(rank_change = first(rank) - last(rank)) %>%
+  arrange(desc(rank_change)) %>%
+  slice_head(n = 5) %>% # top 5 gainers
+  pull(country)
+
+# Slope chart for top movers
+rank_by_year %>%
+  filter(country %in% top_movers) %>%
+  ggplot(aes(x = year, y = rank, color = country, group = country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  scale_y_reverse() + # since lower rank is better
+  labs(
+    title = "Top Movers in Visa-Free Access Rankings",
+    x = "Year",
+    y = "Rank",
+    color = "Country"
+  ) +
+  theme_minimal()
+```
+
+# Interpretation
+The analysis of visa-free access over time shows that, on average, the number of countries accessible without a visa has generally increased, indicating a trend toward greater global mobility. However, regional differences are clear: European countries consistently have higher visa-free counts, while regions like Africa and Asia show lower averages, reflecting differences in diplomatic relations and travel policies. Within regions, there is also notable variation; for example, Europe exhibits relatively uniform high access, whereas Africa displays wider disparities, suggesting that global mobility is unevenly distributed. Examining individual countries reveals that some have experienced dramatic improvements in visa-free rankings over time, likely due to new bilateral agreements or participation in international travel programs. Overall, these visualizations highlight both the general increase in global travel freedom and the persistent inequalities that exist between and within regions.

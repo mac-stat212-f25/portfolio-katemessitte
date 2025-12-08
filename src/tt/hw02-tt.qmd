@@ -1,0 +1,85 @@
+---
+title: "Homework 02"
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+```{r}
+# read in data
+library(readr)
+library(tidyverse)
+library(here)
+```
+
+```{r}
+all_recipes <- read_csv("tidytuesday1/data/2025/2025-09-16/all_recipes.csv")
+cuisines <- read_csv("tidytuesday1/data/2025/2025-09-16/cuisines.csv")
+```
+Research question: Do recipes with more balanced macronutrients (carbs, fat, protein) receive higher ratings from users?
+
+```{r}
+# --------------- Data prep: compute proportions and balance score ---------------
+recipes <- all_recipes %>%
+  mutate(
+    total_macros = carbs + fat + protein,
+    # avoid division by zero; produce NA if no macros
+    carb_prop    = if_else(total_macros > 0, carbs / total_macros, NA_real_),
+    fat_prop     = if_else(total_macros > 0, fat / total_macros, NA_real_),
+    protein_prop = if_else(total_macros > 0, protein / total_macros, NA_real_),
+    # per-row mean of the three proportions
+    mean_prop = (carb_prop + fat_prop + protein_prop) / 3,
+    # variance across the three proportions (population variance)
+    balance_score = ((carb_prop - mean_prop)^2 +
+                     (fat_prop  - mean_prop)^2 +
+                     (protein_prop - mean_prop)^2) / 3
+  ) %>%
+  # drop helper column if you don't want it
+  select(-mean_prop)
+```
+
+```{r}
+# --------------- Visualization 1: Scatterplot (balance vs. avg_rating) ---------------
+ggplot(recipes %>% filter(!is.na(balance_score) & !is.na(avg_rating)),
+       aes(x = balance_score, y = avg_rating)) +
+  geom_jitter(width = 0.0005, height = 0, alpha = 0.35, size = 1.5) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Macronutrient balance vs. Average rating",
+    subtitle = "Lower balance_score → more balanced macronutrients",
+    x = "Macronutrient balance (variance of proportions; lower = more balanced)",
+    y = "Average rating"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# --------------- Visualization 2: Density of balance by rating groups ---------------
+recipes %>%
+  filter(!is.na(balance_score) & !is.na(avg_rating)) %>%
+  mutate(rating_group = case_when(
+    avg_rating >= 4.5 ~ "High (>= 4.5)",
+    avg_rating >= 4.0 ~ "Medium (4.0 - 4.49)",
+    TRUE              ~ "Lower (< 4.0)"
+  )) %>%
+  ggplot(aes(x = balance_score, fill = rating_group)) +
+  geom_density(alpha = 0.45) +
+  labs(
+    title = "Distribution of macronutrient balance by rating group",
+    x = "Macronutrient balance (variance of proportions)",
+    fill = "Rating group"
+  ) +
+  theme_minimal()
+
+```
+
+Interpretation: Recipes with more balanced macronutrients (carbs, fat, protein) tend to receive slightly higher ratings. The scatterplot shows a subtle negative relationship between balance score (lower = more balanced) and average rating, while the density plot indicates that high-rated recipes are somewhat more concentrated toward lower balance scores. Overall, this suggests that nutritional balance may modestly influence user preferences, though other factors like flavor or cuisine likely play a larger role.

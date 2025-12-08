@@ -1,0 +1,114 @@
+---
+title: "Homework 07"
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+```{r}
+# Necessary libraries
+library(readr)
+library(tidyverse)
+library(scales)
+library(stringr)
+# Load data
+prizes <- read_csv("tidytuesday1/data/prizes.csv")
+```
+
+Research question: How have gender and ethnicity representation among literary prize winners changed over time?
+
+Visualizations:
+
+```{r}
+# 1) % of winners by gender over time (yearly)
+# Simple line plot of number of winners by gender over time
+ggplot(prizes, aes(x = prize_year, color = gender)) +
+  geom_line(stat = "count", linewidth = 1) +
+  labs(
+    title = "Number of Prize Winners by Gender Over Time",
+    x = "Year",
+    y = "Number of Winners",
+    color = "Gender"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+
+```
+
+```{r}
+# 2) Ethnic composition by DECADE (stacked area, proportions)
+eth_decade <- prizes %>%
+  filter(!is.na(prize_year), !is.na(ethnicity_macro)) %>%
+  mutate(decade = floor(prize_year / 10) * 10) %>%
+  group_by(decade, ethnicity_macro) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(decade) %>%
+  mutate(p = n / sum(n)) %>%
+  ungroup()
+
+ggplot(eth_decade, aes(decade, p, fill = ethnicity_macro)) +
+  geom_area() +
+  scale_y_continuous(labels = percent_format()) +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  labs(
+    title = "Ethnic composition of literary prize winners by decade",
+    subtitle = "Proportion of winners by ethnicity (macro categories)",
+    x = "Decade", y = "Share of winners", fill = "Ethnicity (macro)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top")
+```
+
+
+```{r}
+top_genres <- prizes %>%
+  count(prize_genre, sort = TRUE) %>%
+  slice_head(n = 10) %>%
+  pull(prize_genre)
+
+female_share_genre <- prizes %>%
+  filter(prize_genre %in% top_genres, !is.na(gender)) %>%
+  mutate(
+    g = str_to_lower(str_trim(gender)),
+    # treat a range of entries as "female"
+    is_female = str_detect(g, "\\bf(emale)?\\b|\\bwoman\\b|\\bwomen\\b")
+  ) %>%
+  group_by(prize_genre) %>%
+  summarise(
+    total = n(),
+    female_n = sum(is_female, na.rm = TRUE),
+    female_share = female_n / total,
+    .groups = "drop"
+  ) %>%
+  arrange(female_share)
+
+ggplot(female_share_genre,
+       aes(x = female_share, y = reorder(prize_genre, female_share))) +
+  geom_col(width = 0.8) +
+  geom_text(aes(label = percent(female_share, accuracy = 1)),
+            hjust = -0.1, size = 3.5) +
+  scale_x_continuous(labels = percent_format(), limits = c(0, 1.05)) +
+  labs(
+    title = "Female Share of Winners by Prize Genre",
+    subtitle = "Top 10 genres by total winners (all years)",
+    x = "Female share", y = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+
+
+Interpretation:
+The first plot shows the number of prize winners by gender from 1990 to 2025. Early in the period, men consistently received more awards, but over time, the gap narrowed and then flipped in recent decades, women now win as frequently or more often than men. Notably, from around 2005 onward, women’s representation increased steadily while men’s declined, suggesting a broader shift toward gender balance in the literary world. The emergence of non-binary and trans winners—although in small numbers—also signals that prizes are slowly becoming more inclusive of diverse gender identities, reflecting changing social awareness.
+The second visualization illustrates the ethnic composition of prize winners over time. White British and Non-UK White authors still make up a large majority of winners—over half of all recipients in every decade—but there’s a gradual diversification trend. From 1990 to 2020, representation of Black British, Caribbean, Asian, and Jewish authors increased slightly, and the share of White British authors declined. Although progress is visible, the overall pattern shows that literary prizes still reflect systemic inequities in cultural visibility, with only incremental movement toward racial diversity.
+The third chart highlights how gender balance varies across genres. Women dominate children’s literature (71%) and fiction (62%), but are underrepresented in science fiction & fantasy (21%), non-fiction (32%), and crime writing (37%). This distribution underscores how certain genres remain gendered spaces—with women more visible in traditionally “feminine” genres and men continuing to hold space in others. It’s also worth noting that middle-ground genres like poetry, drama, and biography hover around parity, showing potential for balanced recognition.
+Together, these visuals show that the literary prize landscape is becoming more inclusive but not yet equitable. Gender representation has improved dramatically, while racial and ethnic diversity is advancing slowly. Genre patterns suggest that institutional change interacts with cultural norms, even as new identities gain visibility, older hierarchies still shape who gets recognized and for what kinds of work.

@@ -1,0 +1,173 @@
+---
+title: "Homework 08"
+---
+
+
+## TidyTuesday Section (optional)
+
+::: {.callout-important title="Instructions"}
+
+You can count work on this week's TidyTuesday toward the exceptional work required for an A in the Homework component.
+
+:::
+
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+
+```{r}
+# load libraries
+library(readr)
+library(tidyverse)
+library(scales)
+# read in data
+flint_mdeq <- read_csv("tidytuesday1/data/flint_mdeq.csv")
+```
+
+Research question: To what extent did measured lead levels in Flint water exceed the EPA’s action threshold of 15 ppb, and how did extreme high-lead samples shape the overall distribution?
+
+# Visualizations
+```{r}
+# set constants
+EPA_THRESHOLD <- 15 # ppb
+
+# clean & prep
+flint <- flint_mdeq %>%
+  janitor::clean_names() %>%
+  mutate(
+    lead  = suppressWarnings(as.numeric(lead)),
+    lead2 = suppressWarnings(as.numeric(lead2)),
+    sample = as.character(sample),
+    notes  = as.character(notes)
+  ) %>%
+  mutate(
+    lead  = ifelse(is.na(lead)  | lead  < 0, NA_real_, lead),
+    lead2 = ifelse(is.na(lead2) | lead2 < 0, NA_real_, lead2),
+    above_epa_1 = lead  > EPA_THRESHOLD,
+    above_epa_2 = lead2 > EPA_THRESHOLD
+  )
+
+# helper: percent above threshold for annotations
+pct_above <- flint %>%
+  summarize(
+    n = sum(!is.na(lead)),
+    n_above = sum(lead > EPA_THRESHOLD, na.rm = TRUE),
+    pct = n_above / n
+  )
+```
+
+```{r}
+# Visualization 1: Histogram of first test with EPA line
+p_hist <- flint %>%
+  ggplot(aes(x = lead)) +
+  geom_histogram(binwidth = 2, boundary = 0, closed = "left", alpha = 0.9) +
+  geom_vline(xintercept = EPA_THRESHOLD, linewidth = 1) +
+  annotate(
+    "text",
+    x = EPA_THRESHOLD, y = Inf, vjust = 1.3, hjust = -0.05,
+    label = "EPA action level (15 ppb)"
+  ) +
+  labs(
+    title = "Flint water lead levels (Test 1)",
+    subtitle = paste0(
+      percent(pct_above$pct, accuracy = 0.1),
+      " of tested samples exceed 15 ppb (n=", pct_above$n, ")"
+    ),
+    x = "Lead (ppb)", y = "Count"
+  ) +
+  coord_cartesian(xlim = c(0, quantile(flint$lead, 0.99, na.rm = TRUE))) +
+  theme_minimal(base_size = 12)
+p_hist
+```
+The distribution of lead levels in Flint’s water samples is heavily right-skewed, with most readings clustered at low levels but a subset of samples showing dangerously elevated lead. While the majority of samples fell below the EPA’s action threshold of 15 parts per billion (ppb), 11.3% exceeded this limit. This may seem like a small share, but any sample above the threshold is considered unacceptable for public drinking water, especially when lead exposure can cause irreversible developmental harm in children.
+
+```{r}
+# Visualization 2: Boxplots
+# Full (can be dominated by outliers, but shows reality)
+p_box_full <- flint %>%
+  ggplot(aes(y = lead, x = "")) +
+  geom_boxplot(width = 0.2, outlier.alpha = 0.6) +
+  geom_hline(yintercept = EPA_THRESHOLD, linewidth = 1) +
+  labs(title = "Distribution of lead (Test 1) — full range",
+       x = NULL, y = "Lead (ppb)") +
+  theme_minimal(base_size = 12)
+p_box_full
+
+# Zoomed to 95th percentile for shape
+upper95 <- quantile(flint$lead, 0.95, na.rm = TRUE)
+p_box_zoom <- flint %>%
+  ggplot(aes(y = lead, x = "")) +
+  geom_boxplot(width = 0.2, outlier.alpha = 0.6) +
+  geom_hline(yintercept = EPA_THRESHOLD, linewidth = 1) +
+  coord_cartesian(ylim = c(0, upper95)) +
+  labs(title = "Distribution of lead (Test 1) — zoomed to 95th percentile",
+       x = NULL, y = "Lead (ppb)") +
+  theme_minimal(base_size = 12)
+p_box_zoom
+```
+The boxplot highlights how a few extreme outliers dramatically shape the distribution. Some samples reached well above 20 ppb, with one exceeding 100 ppb, more than six times the action level. These cases illustrate the central challenge in the Flint water crisis: averages alone could conceal dangerous contamination events. The presence of even a handful of highly elevated samples signals systemic risk and highlights why residents lost trust in the safety of their tap water.
+
+```{r}
+# Visualization 3: Mean vs Median vs 90th percentile (Test 1)
+summary_points <- flint %>%
+  summarize(
+    mean = mean(lead, na.rm = TRUE),
+    median = median(lead, na.rm = TRUE),
+    p90 = quantile(lead, 0.90, na.rm = TRUE)
+  ) %>%
+  pivot_longer(everything(), names_to = "stat", values_to = "value")
+
+p_stats <- ggplot(summary_points, aes(x = stat, y = value)) +
+  geom_point(size = 3) +
+  geom_hline(yintercept = EPA_THRESHOLD, linewidth = 1) +
+  labs(
+    title = "Summary statistics vs EPA threshold (Test 1)",
+    x = NULL, y = "Lead (ppb)"
+  ) +
+  theme_minimal(base_size = 12)
+p_stats
+```
+Comparing summary statistics reinforces this pattern. The median lead level is around 3 ppb, much lower than the EPA threshold, suggesting typical samples might look “safe.” However, the mean is noticeably higher, pulled upward by very high readings. The 90th percentile sits near the action level, showing that the upper tail of the distribution poses meaningful risk. This difference between mean and median underscores how central tendency alone cannot capture the severity of contamination risks when the stakes involve public health.
+
+```{r}
+# Visualization 4: Consistency of Test 1 vs Test 2
+has_second <- sum(!is.na(flint$lead2)) > 0
+
+if (has_second) {
+  compare <- flint %>%
+    filter(!is.na(lead) & !is.na(lead2)) %>%
+    mutate(
+      class1 = if_else(lead  > EPA_THRESHOLD, "Above 15", "At/Below 15"),
+      class2 = if_else(lead2 > EPA_THRESHOLD, "Above 15", "At/Below 15"),
+      changed_class = class1 != class2
+    )
+
+  p_scatter <- ggplot(compare, aes(x = lead, y = lead2)) +
+    geom_point(alpha = 0.8) +
+    geom_abline(slope = 1, intercept = 0, linewidth = 1) +
+    geom_vline(xintercept = EPA_THRESHOLD, linewidth = 0.8) +
+    geom_hline(yintercept = EPA_THRESHOLD, linewidth = 0.8) +
+    labs(
+      title = "Test–retest consistency of lead levels",
+      subtitle = paste0("Points off the diagonal indicate changes. Class changes: ",
+                        sum(compare$changed_class), " of ", nrow(compare)),
+      x = "Lead Test 1 (ppb)", y = "Lead Test 2 (ppb)"
+    ) +
+    coord_equal(xlim = c(0, max(compare$lead, compare$lead2, na.rm = TRUE)),
+                ylim = c(0, max(compare$lead, compare$lead2, na.rm = TRUE))) +
+    theme_minimal(base_size = 12)
+  p_scatter
+
+  # Small summary table of classification changes (print to console)
+  compare %>%
+    count(class1, class2) %>%
+    arrange(desc(n)) %>%
+    print(n = Inf)
+}
+p_scatter
+```
+For samples with repeat testing, lead concentrations were highly consistent. Points fall almost perfectly on the diagonal line in the scatterplot, and none of the retests changed safety classification relative to the EPA standard. This suggests the elevated lead readings were not measurement errors, high values were repeatable and real, further validating concern about dangerous contamination levels.
+
+# Overall Interpetation
+Although most Flint water samples fell below the EPA’s 15 ppb threshold, a meaningful minority exceeded safe levels, and some were alarmingly high. These results demonstrate how focusing only on average levels could mask critical health risks. The right-skewed distribution and presence of extreme outliers reflect why residents demanded transparency and accountability: even a small number of very high lead readings can represent serious danger when the public relies on a shared water system.
+

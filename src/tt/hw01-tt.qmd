@@ -1,0 +1,81 @@
+---
+title: "Homework 01"
+---
+
+
+## TidyTuesday Section
+
+Explore the week's [TidyTuesday](https://github.com/rfordatascience/tidytuesday) challenge. Develop a research question, then answer it through a short data story with [effective visualization(s)]({{< var effective-viz-url >}}).  Provide sufficient background for readers to grasp your narrative.
+
+# research question: Are frog observations more common in certain months of the year, and does this vary by subfamily?
+```{r}
+library(tidyverse)
+library(lubridate)  # for working with dates
+library(here)
+
+```
+```{r}
+frog_names <- read_csv("tidytuesday1/data/2025/2025-09-02/frog_names.csv")
+frogID_data <- read_csv("tidytuesday1/data/2025/2025-09-02/frogID_data.csv")
+```
+
+
+```{r}
+# Merge on scientificName
+frog_data <- frogID_data %>%
+  left_join(frog_names %>% select(scientificName, subfamily), by = "scientificName")
+
+```
+
+```{r}
+# Extract month from eventDate
+frog_data <- frog_data %>%
+  mutate(eventDate = ymd(eventDate),   # convert to date
+         month = month(eventDate, label = TRUE))  # extract month as ordered factor
+
+```
+
+
+```{r}
+# Summarize observations per month per subfamily
+monthly_counts <- frog_data %>%
+  group_by(subfamily, month) %>%
+  summarise(n_obs = n(), .groups = "drop")
+
+```
+
+
+```{r}
+# Line chart of observations by month per subfamily
+ggplot(monthly_counts, aes(x = month, y = n_obs, color = subfamily, group = subfamily)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(title = "Monthly Frog Observations by Subfamily",
+       x = "Month",
+       y = "Number of Observations",
+       color = "Subfamily") +
+  theme_minimal()
+
+```
+
+```{r}
+# Faceted bar chart
+ggplot(monthly_counts, aes(x = month, y = n_obs, fill = subfamily)) +
+  geom_col(position = "dodge") +
+  labs(title = "Monthly Frog Observations by Subfamily",
+       x = "Month",
+       y = "Number of Observations") +
+  facet_wrap(~ subfamily) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+# Interpretation
+The two graphs together highlight striking seasonal and taxonomic patterns in frog observations. The line chart shows how activity levels rise and fall across the year, while the bar chart makes clear which groups contribute most heavily to the overall dataset.
+
+Two subfamilies dominate the picture: Hylids (tree frogs) and Myobatrachids (ground-dwelling frogs). Compared to them, other groups such as Ranids, Microhylidae, and Toads make up only a sliver of the total observations. In the bar chart, this imbalance is obvious, the red and green bars representing Hylids and Myobatrachids tower over the rest.
+
+Within these dominant groups, different seasonal rhythms appear. Hylids peak in January, drop sharply through the cooler months, and then rebound strongly in the spring and early summer, reaching another high in November. This U-shaped curve suggests their detectability is closely tied to the warmer, wetter parts of the year. Myobatrachids, on the other hand, show steadier numbers in the first half of the year, followed by a dramatic surge in August and September. This peak coincides with spring breeding season, when their calls are especially frequent and easy to record.
+
+Together, the line and bar graphs tell a complementary story. The line chart reveals when frogs are most commonly observed, while the bar chart highlights which subfamilies dominate the dataset. Both perspectives underscore that frog observations in Australia are not evenly distributed, either across the calendar or across taxonomic groups. Instead, a handful of families drive most of the activity, and their ecological calendars shape the seasonal patterns we see.
