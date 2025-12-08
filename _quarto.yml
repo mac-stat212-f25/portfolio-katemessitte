@@ -100,8 +100,13 @@ book:
       chapters:
       - src/ex/Exam1Findings.qmd
       - src/ex/Exam1SummarySheet.pdf
+      - src/ex/Exam1SummaryPg1.png
+      - src/ex/Exam1SummaryPg2.png
+      - src/ex/Exam1SummaryPg3.png
       - src/ex/Exam2Findings.qmd
       - src/ex/Exam2SummarySheet.pdf
+      - src/ex/Exam2SummaryPg1.png
+      - src/ex/Exam2SummaryPg2.png
 
   appendices:
   - src/appx/appx-sample1.qmd
